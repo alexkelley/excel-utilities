@@ -10,7 +10,7 @@ import datetime
 import pprint
 
             
-def export_to_excel(data_list, worksheet_title, filename):
+def create_spreadsheet(data_list, worksheet_title, filename):
     wb = openpyxl.Workbook()
 
     ws = wb.worksheets[0]
@@ -24,3 +24,28 @@ def export_to_excel(data_list, worksheet_title, filename):
         row += 1
 
     wb.save(filename)
+
+##################
+# Function Calls #
+##################
+
+def main():
+    start_time = time.time()
+
+    timestamp = datetime.datetime.strftime(
+        datetime.datetime.now(), '%Y-%m-%dT%H-%M-%S')
+    path = '/home/'
+    file_format = 'xslx'
+    filename = '{0}working_filename_{1}.{2}'.format(path, timestamp, file_format)
+
+    data_list = []
+    worksheet_title = 'Working Title'
+
+    create_spreadsheet(data_list, worksheet_title, filename)
+
+    end_time = time.time()
+    print('\nFile saved:\n{}'.format(filename))
+    print('Elapsed time: {:.2f} seconds\n'.format(end_time - start_time))
+
+if __name__ == '__main__':
+    main()
