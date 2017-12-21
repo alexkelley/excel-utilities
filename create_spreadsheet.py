@@ -11,19 +11,35 @@ import pprint
 
             
 def create_spreadsheet(data_list, worksheet_title, filename):
-    wb = openpyxl.Workbook()
+    '''
+    Parameters:
+    - data_list is a list of row data each in its own list (works with tuples too)
+    - worksheet_title is a string
+    - filename is a string.  Must include absolute path and file extension
 
-    ws = wb.worksheets[0]
-    ws.title = worksheet_title
+    Returns:
+    - True if sucessful; False if not
+    '''
+    try:
+        wb = openpyxl.Workbook()
 
-    row = 1
-    for value in data_list:
-        for i, data_point in enumerate(value):
-            ws.cell(row=row, column=i+1).value = data_point
+        ws = wb.worksheets[0]
+        ws.title = worksheet_title
 
-        row += 1
+        row = 1
+        for data_row in data_list:
+            for i, data_point in enumerate(data_row):
+                ws.cell(row=row, column=i+1).value = data_point
 
-    wb.save(filename)
+            row += 1
+
+        wb.save(filename)
+        flag = True
+
+    except:
+        flag = False
+    
+    return flag
 
 ##################
 # Function Calls #
