@@ -20,16 +20,34 @@ def create_spreadsheet(data_list, worksheet_title, filename):
     Returns:
     - True if sucessful; False if not
     '''
+    columnHeader = NamedStyle(name='columnHeader')
+    columnHeader.font = Font(name='Calibri', bold=True)
+    columnHeader.alignment = Alignment(horizontal="center")
+    columnHeader.fill = PatternFill(fill_type='solid',
+                                    start_color='99ccff', end_color='99ccff')
+    
+    dollarFormat = NamedStyle(name='dollarFormat')
+    dollarFormat.number_format = '$#,##0.00'
+    dollarFormat.alignment = Alignment(horizontal="right")
+    dollarFormat.font = Font(name='Calibri')
+
     try:
         wb = openpyxl.Workbook()
 
+        ## use for automatically creating additional worksheets
+        # for i in range(len(data.keys())-1):
+        #     wb.create_sheet()
+
         ws = wb.worksheets[0]
         ws.title = worksheet_title
+        ws.column_dimensions['A'].width = 17
 
         row = 1
         for data_row in data_list:
             for i, data_point in enumerate(data_row):
                 ws.cell(row=row, column=i+1).value = data_point
+                #ws.cell(row=row, column=i+1).style = dollarFormat
+                #ws.cell(row=row, column=i+1).alignment = Alignment(horizontal="center")
 
             row += 1
 
